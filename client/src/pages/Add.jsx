@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NavBar from "../components/NavBar";
+import NavBar from "../componeents/Navbar";
 
 const Add = () => {
   const [restaurant, setRestaurant] = useState({
@@ -16,7 +16,12 @@ const Add = () => {
       const response = await fetch("http://localhost:5000/restaurants", {
         method: "POST",
         body: JSON.stringify(restaurant),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
+      console.log(response);
+
       if (response.ok) {
         alert("Restaurant added successfully!!");
         setRestaurant({
@@ -59,19 +64,19 @@ const Add = () => {
           />
         </label>
         <label className="input input-bordered flex items-center gap-2 w-[500px]">
-          Restaurant Img:
+          Restaurant ImageUrl:
           <input
             type="text"
             className="grow"
-            value={restaurant.img}
+            value={restaurant.imageUrl}
             onChange={handleChange}
-            placeholder="Restaurant Img"
-            name="img"
+            placeholder="Restaurant ImageUrl"
+            name="imageUrl"
           />
         </label>
-        {restaurant.img && (
+        {restaurant.imageUrl && (
           <div className="flex items-center gap-2">
-            <img className="h-32" src={restaurant.img} />
+            <img className="h-32" src={restaurant.imageUrl} />
           </div>
         )}
         <div className="space-x-2">

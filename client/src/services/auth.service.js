@@ -4,7 +4,7 @@ import TokenService from "./token.service";
 const API_URL = import.meta.env.VITE_API_URL; // ชื่อ API_URL ต้องตรงกับที่ตั้งไว้ในไฟล์ .env
 
 const register = async (username, name, email, password) => {
-    return await api.post(API_URL + "sigup", {
+    return await api.post(API_URL + "/sigup", {
         username,
         name,
         email,
@@ -13,7 +13,7 @@ const register = async (username, name, email, password) => {
 };
 
 const login = async (username, password) => {
-    const response = await api.post(API_URL + "sigin", {
+    const response = await api.post(API_URL + "/sigin", {
         username,
         password,
     });
@@ -22,7 +22,7 @@ const login = async (username, password) => {
         return response; // ถ้าไม่มี token ใน response ให้ส่ง response กลับไป
     }
     TokenService.setUser(response.data); // เก็บข้อมูลผู้ใช้และ token ลงใน localStorage
-
+    return response; // ส่ง response กลับไปเพื่อให้สามารถใช้งานต่อได้
 };
 
 const logout = () => {    // ไม่เป็น async เพราะไม่ต้องรอการตอบกลับจาก server หรือไม่ต้องไปบอกเขาว่าเราออกจากระบบแล้ว

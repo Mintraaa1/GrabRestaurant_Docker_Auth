@@ -25,3 +25,5 @@ instance.interceptors.request.use(   //object ใหญ่สุดคือinst
         return Promise.reject(error); // ถ้ามี error ในการดักจับ request จะส่ง error กลับไป
     }
 );
+
+export default instance;

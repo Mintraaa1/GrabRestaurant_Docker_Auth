@@ -31,3 +31,5 @@ const RestaurantService = {
     insertRestaurant,
     deleteRestaurant
 }
+
+export default RestaurantService;

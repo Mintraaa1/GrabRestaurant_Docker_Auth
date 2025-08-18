@@ -25,6 +25,7 @@ const Card = (props) => {
           <div className="badge badge-secondary">NEW</div>
         </h2>
         <p>{props.type}</p>
+        {/* {user && user.authorites} */}
         <div className="card-actions justify-end">
           <button
             onClick={() => handleDelete(props.id)}

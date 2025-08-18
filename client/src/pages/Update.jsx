@@ -33,7 +33,7 @@ const Update = () => {
   };
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:5000/restaurants/" + id,
+      const response = await fetch("http://localhost:5000/restaurants/api/v1/restaurants/" + id,
         {
         method: "PUT",
         body: JSON.stringify(restaurant),

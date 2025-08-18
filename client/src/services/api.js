@@ -15,7 +15,7 @@ instance.interceptors.request.use(   //object ใหญ่สุดคือinst
         //receive after logged in
         //TODO
 
-        const token = TokenService.getlocalAccessToken; // ดึง token จากที่เก็บไว้ใน localStorage หรือที่อื่น ๆ
+        const token = TokenService.getlocalAccessToken(); // ดึง token จากที่เก็บไว้ใน localStorage หรือที่อื่น ๆ
         if (token) {
             config.headers["x-access-token"] = token; // ถ้ามี token จะเพิ่มเข้าไปใน headers ของ request
         }

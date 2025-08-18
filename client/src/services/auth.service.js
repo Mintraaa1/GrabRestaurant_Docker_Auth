@@ -4,7 +4,7 @@ import TokenService from "./token.service";
 const API_URL = import.meta.env.VITE_API_URL; // ชื่อ API_URL ต้องตรงกับที่ตั้งไว้ในไฟล์ .env
 
 const register = async (username, name, email, password) => {
-    return await api.post(API_URL + "/sigup", {
+    return await api.post(API_URL + "/signup", {
         username,
         name,
         email,
@@ -13,7 +13,7 @@ const register = async (username, name, email, password) => {
 };
 
 const login = async (username, password) => {
-    const response = await api.post(API_URL + "/sigin", {
+    const response = await api.post(API_URL + "/signin", {
         username,
         password,
     });

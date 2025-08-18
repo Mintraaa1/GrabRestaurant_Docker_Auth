@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import NavBar from "../componeents/Navbar";
+import NavBar from "../components/Navbar";
 
 const Add = () => {
   const [restaurant, setRestaurant] = useState({
     title: "",
     type: "",
-    img: "",
+    imageUrl: "",
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,7 +27,7 @@ const Add = () => {
         setRestaurant({
           title: "",
           type: "",
-          img: "",
+          imageUrl: "",
         });
       }
     } catch (error) {

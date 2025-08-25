@@ -1,5 +1,6 @@
 import React from "react";
 import { useAuthContext } from "../context/AuthContext";
+import RestaurantService from "../services/restaurant.service";
 
 const Card = (props) => {
   const { user } = useAuthContext();

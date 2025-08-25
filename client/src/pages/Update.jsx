@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Update = () => {
-  //1.Get Id from URL
   const { id } = useParams();
   const [restaurant, setRestaurant] = useState({
     name: "",
     type: "",
     imageUrl: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-  //2. Get Restaurant by ID
+  // ดึงข้อมูลร้านอาหารตาม id
   useEffect(() => {
     fetch("http://localhost:5000/api/v1/restaurants/" + id)
-      .then((res) => {
-        // convert to JSON format
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((response) => {
-        //save to state
         setRestaurant(response);
       })
       .catch((err) => {
-        //catch error
-        console.log(err.message);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to fetch restaurant data",
+        });
       });
   }, [id]);
 
@@ -31,7 +32,17 @@ const Update = () => {
     const { name, value } = e.target;
     setRestaurant({ ...restaurant, [name]: value });
   };
+
   const handleSubmit = async () => {
+    if (!restaurant.name || !restaurant.type || !restaurant.imageUrl) {
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Data",
+        text: "Please fill in all fields.",
+      });
+      return;
+    }
+    setIsLoading(true);
     try {
       const response = await fetch(
         "http://localhost:5000/api/v1/restaurants/" + id,
@@ -44,12 +55,36 @@ const Update = () => {
         }
       );
       if (response.ok) {
-        alert("Restaurant updated successfully!!");
+        Swal.fire({
+          icon: "success",
+          title: "Update Restaurant",
+          text: "Restaurant updated successfully!",
+          timer: 1500,
+          showConfirmButton: false,
+        }).then(() => {
+          navigate("/");
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Update Restaurant",
+          text: "Failed to update restaurant",
+        });
       }
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Update Restaurant",
+        text: "Failed to update restaurant",
+      });
     }
+    setIsLoading(false);
   };
+
+  const handleCancel = () => {
+    navigate("/");
+  };
+
   return (
     <div className="container mx-auto">
       <div>
@@ -91,17 +126,24 @@ const Update = () => {
         </label>
         {restaurant.imageUrl && (
           <div className="flex items-center gap-2">
-            <img className="h-32" src={restaurant.imageUrl} />
+            <img className="h-32" src={restaurant.imageUrl} alt="preview" />
           </div>
         )}
         <div className="space-x-2">
           <button
             className="btn btn-outline btn-success"
             onClick={handleSubmit}
+            disabled={isLoading}
           >
-            Update
+            {isLoading ? "Updating..." : "Update"}
           </button>
-          <button className="btn btn-outline btn-error">Cancel</button>
+          <button
+            className="btn btn-outline btn-error"
+            onClick={handleCancel}
+            type="button"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>

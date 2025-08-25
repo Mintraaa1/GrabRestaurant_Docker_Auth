@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
-import { use, useState } from "react";
+import { useState, useEffect } from "react";
 import AuthService from "../services/auth.service";
-import { useAuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router";
+import { useAuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
 const Login = () => {
   const [login, setLogin] = useState({ username: "", password: "" });

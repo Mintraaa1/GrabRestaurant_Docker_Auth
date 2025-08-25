@@ -1,6 +1,8 @@
 import React from "react";
+import { useAuthContext } from "../context/AuthContext";
 
 const Card = (props) => {
+  const { user } = useAuthContext();
   const handleDelete = async (id) => {
     try {
       const response = await fetch("http://localhost:5000/restaurants/" + id, {
@@ -25,7 +27,7 @@ const Card = (props) => {
           <div className="badge badge-secondary">NEW</div>
         </h2>
         <p>{props.type}</p>
-        {/* {user && user.authorites} */}
+        {user && user?.authorites?.includes("ADMIN") && (
         <div className="card-actions justify-end">
           <button
             onClick={() => handleDelete(props.id)}
@@ -37,6 +39,7 @@ const Card = (props) => {
             Edit
           </a>
         </div>
+        )}
       </div>
     </div>
   );

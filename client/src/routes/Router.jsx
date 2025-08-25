@@ -4,9 +4,11 @@ import Home from "../pages/Home";
 import Update from "../pages/Update";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import NotAllowed from "../pages/NotAllowed";
 import AdminPage from "../pages/AdminPage";
 import UserPage from "../pages/UserPage";
-import ModAndAdminPage from "../pages/ModAndAdminPage";
+import ModAndAdminPage from "../pages/ModOrAdminPage";
+import Profile from "../pages/Profile";
 const router = createBrowserRouter([
   {
     path: "/",

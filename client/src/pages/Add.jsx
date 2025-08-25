@@ -3,7 +3,7 @@ import NavBar from "../components/Navbar";
 
 const Add = () => {
   const [restaurant, setRestaurant] = useState({
-    title: "",
+    name: "",
     type: "",
     imageUrl: "",
   });
@@ -12,8 +12,10 @@ const Add = () => {
     setRestaurant({ ...restaurant, [name]: value });
   };
   const handleSubmit = async () => {
+    console.log(restaurant);
+
     try {
-      const response = await fetch("http://localhost:5000/restaurants", {
+      const response = await fetch("http://localhost:5000/api/v1/restaurants", {
         method: "POST",
         body: JSON.stringify(restaurant),
         headers: {
@@ -25,7 +27,7 @@ const Add = () => {
       if (response.ok) {
         alert("Restaurant added successfully!!");
         setRestaurant({
-          title: "",
+          name: "",
           type: "",
           imageUrl: "",
         });
@@ -36,19 +38,18 @@ const Add = () => {
   };
   return (
     <div className="container mx-auto">
-      
       <div>
         <h1 className="text-2xl text-center mt-2">Add new restaurant</h1>
       </div>
       <div className="space-y-2 flex items-center flex-col my-2 w-full">
         <label className="input input-bordered flex items-center gap-2 w-[500px]">
-          Restaurant Title:
+          Restaurant Name:
           <input
             type="text"
-            name="title"
-            value={restaurant.title}
+            name="name"
+            value={restaurant.name}
             className="grow w-80"
-            placeholder="Restaurant Title"
+            placeholder="Restaurant Name"
             onChange={handleChange}
           />
         </label>

@@ -5,14 +5,14 @@ const Update = () => {
   //1.Get Id from URL
   const { id } = useParams();
   const [restaurant, setRestaurant] = useState({
-    title: "",
+    name: "",
     type: "",
     imageUrl: "",
   });
 
   //2. Get Restaurant by ID
   useEffect(() => {
-    fetch("http://localhost:5000/restaurants/api/v1/restaurants/" + id)
+    fetch("http://localhost:5000/api/v1/restaurants/" + id)
       .then((res) => {
         // convert to JSON format
         return res.json();
@@ -33,18 +33,19 @@ const Update = () => {
   };
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:5000/restaurants/api/v1/restaurants/" + id,
+      const response = await fetch(
+        "http://localhost:5000/api/v1/restaurants/" + id,
         {
-        method: "PUT",
-        body: JSON.stringify(restaurant),
-        headers: {
+          method: "PUT",
+          body: JSON.stringify(restaurant),
+          headers: {
             "Content-Type": "application/json",
           },
         }
       );
       if (response.ok) {
         alert("Restaurant updated successfully!!");
-        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -88,7 +89,7 @@ const Update = () => {
             name="imageUrl"
           />
         </label>
-        {restaurant.img && (
+        {restaurant.imageUrl && (
           <div className="flex items-center gap-2">
             <img className="h-32" src={restaurant.imageUrl} />
           </div>

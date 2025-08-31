@@ -1,24 +1,28 @@
-import { createContext, useContext, useState } from "react";
+import { useState, useContext, createContext, useEffect } from "react";
+import AuthService from "../services/auth.service";
+import TokenService from "../services/token.service";
 
-const AuthContext = createContext();
-
+const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-
-  // ฟังก์ชัน logout
+  const [user, setUser] = useState(getUser);
+  const login = (user) => setUser(user);
   const logout = () => {
+    AuthService.logout();
     setUser(null);
-    console.log("User logged out!");
   };
+  function getUser() {
+    const currentUser = TokenService.getUser();
+    return currentUser;
+  }
+  useEffect(() => {
+    TokenService.setUser(user);
+  }, [user]);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, logout }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// ✅ Hook ใช้เรียก context
-export const useAuthContext = () => {
-  return useContext(AuthContext);
-};
+export const useAuthContext = () => useContext(AuthContext);

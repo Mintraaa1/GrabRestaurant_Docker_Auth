@@ -1,85 +1,63 @@
-import React from "react";
+import React, { use } from "react";
 import { useAuthContext } from "../context/AuthContext";
-import UserProfile from "./UserProfile";
-const NavBar = () => {
+import RestaurantService from "../services/restaurtant.service.js";
+import Swal from "sweetalert2";
+const Card = (props) => {
   const { user } = useAuthContext();
-  console.log(user);
-
-  const menuItems = [
-    {
-      name: "Search",
-      url: "/",
-    },
-    {
-      name: "Add restaurant",
-      url: "/add",
-    },
-    {
-      name: "About Us",
-      url: "/",
-    },
-  ];
-
+  const handleDelete = async (id) => {
+    try {
+      // const response = await fetch(
+      //   "http://localhost:5000/api/v1/restaurants/" + id,
+      //   {
+      //     method: "DELETE",
+      //   }
+      // );
+      const response = await RestaurantService.deleteRestaurant(id);
+      if (response.status === 200) {
+        Swal.fire({
+          title: "Delete restaurant",
+          text: "Restaurant updated successfully!",
+          icon: "success",
+        }).then(() => {
+          window.location.reload();
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Delete restaurant",
+        text: error?.response?.data?.message || error.message,
+        icon: "error",
+      });
+    }
+  };
   return (
-    <div className="navbar bg-base-100 shadow-sm">
-      <div className="navbar-start">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+    <div className="card bg-base-100 w-96 shadow-sm">
+      <figure>
+        <img src={props.imageUrl} alt="Shoes" />
+      </figure>
+      <div className="card-body">
+        <h2 className="card-title">
+          {props.name}
+          <div className="badge badge-secondary">NEW</div>
+        </h2>
+        <p>{props.type}</p>
+        {user && user?.authorities?.includes("ROLES_ADMIN") && (
+          <div className="card-actions justify-end">
+            <button
+              onClick={() => handleDelete(props.id)}
+              className="btn btn-error"
             >
-              {" "}
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />{" "}
-            </svg>
-          </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-          >
-            {menuItems.map((item) => (
-              <li key={item.name}>
-                <a href={item.url}>{item.name}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <a className="btn btn-ghost text-xl" href="/">
-          Grab Restaurant
-        </a>
-      </div>
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          {menuItems.map((item) => {
-            return (
-              <li key={item.name}>
-                <a href={item.url}>{item.name}</a>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-      <div className="navbar-end space-x-2">
-        {user ? (
-          <div>
-            <UserProfile />
-          </div>
-        ) : (
-          <div className="space-x-2">
-            {" "}
-            <a href="/register" className="btn btn-soft btn-primary">
-              Register
+              Delete
+            </button>
+            <a href={"/update/" + props.id} className="btn btn-warning">
+              Edit
             </a>
-            <a href="/login" className="btn btn-soft btn-success">
-              Login
+          </div>
+        )}
+        {user && user?.authorities?.includes("ROLES_MODERATOR") && (
+          <div className="card-actions justify-end">
+            <a href={"/update/" + props.id} className="btn btn-warning">
+              Edit
             </a>
           </div>
         )}
@@ -88,4 +66,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default Card;

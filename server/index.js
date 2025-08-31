@@ -20,10 +20,10 @@ app.use(express.urlencoded({ extended: true }));
 import db from "./models/index.js";
 const role = db.Role;
 
-db.sequelize.sync({ force: true }).then(() => {
-initRole();
-console.log("Drop and Sync");
-});
+// db.sequelize.sync({ force: true }).then(() => {
+// initRole();
+// console.log("Drop and Sync");
+// });
 const initRole = () => {
   role.create({ id: 1, name: "user" });
   role.create({ id: 2, name: "moderator" });

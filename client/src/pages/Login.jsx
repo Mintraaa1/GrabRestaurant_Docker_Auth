@@ -12,7 +12,8 @@ const Login = () => {
     if (user) {
       navigate("/");
     }
-  }, [user])
+  }, [user]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLogin((login) => ({ ...login, [name]: value }));

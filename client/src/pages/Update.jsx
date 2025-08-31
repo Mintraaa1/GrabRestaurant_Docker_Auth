@@ -1,90 +1,72 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router";
+import RestaurantService from "../services/restaurant.service.js";
 import Swal from "sweetalert2";
-
 const Update = () => {
+  //1.Get Id from URL
   const { id } = useParams();
   const [restaurant, setRestaurant] = useState({
     name: "",
     type: "",
     imageUrl: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
 
-  // ดึงข้อมูลร้านอาหารตาม id
+  //2. Get Restaurant by ID
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/restaurants/" + id)
-      .then((res) => res.json())
-      .then((response) => {
-        setRestaurant(response);
-      })
-      .catch((err) => {
+    const fetchRestaurant = async () => {
+      try {
+        const response = await RestaurantService.getRestaurantById(id);
+        if (response.status === 200) {
+          setRestaurant(response.data);
+        }
+      } catch (error) {
         Swal.fire({
+          title: "Fetch restaurant",
+          text: error?.response?.data?.message || error.message,
           icon: "error",
-          title: "Error",
-          text: "Failed to fetch restaurant data",
         });
-      });
+      }
+    };
+
+    fetchRestaurant();
   }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setRestaurant({ ...restaurant, [name]: value });
   };
-
   const handleSubmit = async () => {
-    if (!restaurant.name || !restaurant.type || !restaurant.imageUrl) {
-      Swal.fire({
-        icon: "warning",
-        title: "Missing Data",
-        text: "Please fill in all fields.",
-      });
-      return;
-    }
-    setIsLoading(true);
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/v1/restaurants/" + id,
-        {
-          method: "PUT",
-          body: JSON.stringify(restaurant),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      // const response = await fetch(
+      //   "http://localhost:5000/api/v1/restaurants/" + id,
+      //   {
+      //     method: "PUT",
+      //     body: JSON.stringify(restaurant),
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //   }
+      // );
+      const response = await RestaurantService.editRestaurantById(
+        id,
+        restaurant
       );
-      if (response.ok) {
+
+      if (response.status === 200) {
         Swal.fire({
-          icon: "success",
-          title: "Update Restaurant",
+          title: "Update restaurant",
           text: "Restaurant updated successfully!",
-          timer: 1500,
-          showConfirmButton: false,
-        }).then(() => {
-          navigate("/");
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Update Restaurant",
-          text: "Failed to update restaurant",
+          icon: "success",
         });
       }
     } catch (error) {
       Swal.fire({
+        title: "Update restaurant",
+        text: error?.response?.data?.message || error.message,
         icon: "error",
-        title: "Update Restaurant",
-        text: "Failed to update restaurant",
       });
     }
-    setIsLoading(false);
   };
-
-  const handleCancel = () => {
-    navigate("/");
-  };
-
   return (
     <div className="container mx-auto">
       <div>
@@ -126,24 +108,17 @@ const Update = () => {
         </label>
         {restaurant.imageUrl && (
           <div className="flex items-center gap-2">
-            <img className="h-32" src={restaurant.imageUrl} alt="preview" />
+            <img className="h-32" src={restaurant.imageUrl} />
           </div>
         )}
         <div className="space-x-2">
           <button
             className="btn btn-outline btn-success"
             onClick={handleSubmit}
-            disabled={isLoading}
           >
-            {isLoading ? "Updating..." : "Update"}
+            Update
           </button>
-          <button
-            className="btn btn-outline btn-error"
-            onClick={handleCancel}
-            type="button"
-          >
-            Cancel
-          </button>
+          <button className="btn btn-outline btn-error">Cancel</button>
         </div>
       </div>
     </div>

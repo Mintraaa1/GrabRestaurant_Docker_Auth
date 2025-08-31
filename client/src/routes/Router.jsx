@@ -7,7 +7,7 @@ import Register from "../pages/Register";
 import NotAllowed from "../pages/NotAllowed";
 import AdminPage from "../pages/AdminPage";
 import UserPage from "../pages/UserPage";
-import ModAndAdminPage from "../pages/ModOrAdminPage";
+import ModOrAdminPage from "../pages/ModOrAdminPage";
 import Profile from "../pages/Profile";
 const router = createBrowserRouter([
   {
@@ -17,9 +17,9 @@ const router = createBrowserRouter([
   {
     path: "/add",
     element: (
-              <AdminPage>
-                <Add />,
-              </AdminPage>
+      <AdminPage>
+        <Add />
+      </AdminPage>
     ),
   },
   {
@@ -34,21 +34,21 @@ const router = createBrowserRouter([
     path: "/profile",
     element: (
       <UserPage>
-        <Register />
+        <Profile />
       </UserPage>
     ),
   },
   {
     path: "/update/:id",
-    element: <Update />,
+    element: (
+      <ModOrAdminPage>
+        <Update />
+      </ModOrAdminPage>
+    ),
   },
   {
-    path: "/mod",
-    element: (
-      <ModAndAdminPage>
-        <div>Moderator & Admin Only Content</div>
-      </ModAndAdminPage>
-    ),
+    path: "/notallowed",
+    element: <NotAllowed />,
   },
 ]);
 export default router;

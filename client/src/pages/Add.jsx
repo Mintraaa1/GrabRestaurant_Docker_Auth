@@ -1,65 +1,52 @@
 import React, { useState } from "react";
-import NavBar from "../components/Navbar";
-import Swal from "sweetalert2"; // เพิ่ม import SweetAlert2
-
+import NavBar from "../components/NavBar";
+import RestaurantService from "../services/restaurant.service.js";
+import Swal from "sweetalert2";
 const Add = () => {
   const [restaurant, setRestaurant] = useState({
     name: "",
     type: "",
     imageUrl: "",
   });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setRestaurant({ ...restaurant, [name]: value });
   };
-
   const handleSubmit = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/api/v1/restaurants", {
-        method: "POST",
-        body: JSON.stringify(restaurant),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    console.log(restaurant);
 
-      if (response.ok) {
+    try {
+      // const response = await fetch("http://localhost:5000/api/v1/restaurants", {
+      //   method: "POST",
+      //   body: JSON.stringify(restaurant),
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // });
+      const response = await RestaurantService.insertRestaurant(restaurant);
+      // console.log(response);
+
+      if (response.status === 200) {
         Swal.fire({
-          icon: "success",
-          title: "Add Restaurant",
+          title: "Add restaurant",
           text: "Restaurant added successfully!",
+          icon: "success",
         });
         setRestaurant({
           name: "",
           type: "",
           imageUrl: "",
         });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Add Restaurant",
-          text: "Failed to add restaurant",
-        });
       }
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Add Restaurant",
-        text: "Failed to add restaurant",
-      });
       console.log(error);
+      Swal.fire({
+        title: "Add restaurant",
+        text: error?.response?.data?.message || error.message,
+        icon: "error",
+      });
     }
   };
-
-  const handleCancel = () => {
-    setRestaurant({
-      name: "",
-      type: "",
-      imageUrl: "",
-    });
-  };
-
   return (
     <div className="container mx-auto">
       <div>
@@ -101,7 +88,7 @@ const Add = () => {
         </label>
         {restaurant.imageUrl && (
           <div className="flex items-center gap-2">
-            <img className="h-32" src={restaurant.imageUrl} alt="preview" />
+            <img className="h-32" src={restaurant.imageUrl} />
           </div>
         )}
         <div className="space-x-2">
@@ -111,13 +98,7 @@ const Add = () => {
           >
             Add
           </button>
-          <button
-            className="btn btn-outline btn-error"
-            onClick={handleCancel}
-            type="button"
-          >
-            Cancel
-          </button>
+          <button className="btn btn-outline btn-error">Cancel</button>
         </div>
       </div>
     </div>

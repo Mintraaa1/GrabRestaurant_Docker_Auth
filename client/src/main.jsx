@@ -3,13 +3,14 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import router from "./routes/Router";
 import { RouterProvider } from "react-router";
-import NavBar from "./components/Navbar";
+import NavBar from "./components/NavBar.jsx";
 import { AuthProvider } from "./context/AuthContext";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
-       <RouterProvider router={router} />
+      <NavBar />
+      <RouterProvider router={router} />
     </AuthProvider>
   </StrictMode>
 );

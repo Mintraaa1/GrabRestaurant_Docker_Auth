@@ -1,35 +1,35 @@
-import api from './api';
-const RESTO_API = import.meta.env.VITE_API_URL; // ชื่อ VITE_API_URL ต้องตรงกับที่ตั้งไว้ในไฟล์ .env
+import api from "./api";
+const RESTO_API = import.meta.env.VITE_RESTO_API;
 
-//get all restaurants
+//get all restaurant
 const getAllRestaurants = async () => {
-    return await api.get(RESTO_API);
+  return await api.get(RESTO_API);
 };
-
-// get restaurants by ID
+//get restaurant by Id
 const getRestaurantById = async (id) => {
-    return await api.get(`${RESTO_API}/${id}`);
-};  
-// update restaurant by ID
+  //   return await api.get(RESTO_API + "/" + id);
+  return await api.get(`${RESTO_API}/${id}`);
+};
+//update restaurant by Id
 const editRestaurantById = async (id, restaurant) => {
-    return await api.put(`${RESTO_API}/${id}`, restaurant);
+  return await api.put(`${RESTO_API}/${id}`, restaurant);
 };
 //add restaurant
 const insertRestaurant = async (restaurant) => {
-    return await api.post(RESTO_API, restaurant);
+  return await api.post(RESTO_API, restaurant);
 };
+
 //delete restaurant
 const deleteRestaurant = async (id) => {
-    return await api.delete(`${RESTO_API}/${id}`);
+  return await api.delete(`${RESTO_API}/${id}`);
 };
 
-
 const RestaurantService = {
-    getAllRestaurants,
-    getRestaurantById,
-    editRestaurantById,
-    insertRestaurant,
-    deleteRestaurant
-}
+  getAllRestaurants,
+  getRestaurantById,
+  editRestaurantById,
+  deleteRestaurant,
+  insertRestaurant,
+};
 
 export default RestaurantService;

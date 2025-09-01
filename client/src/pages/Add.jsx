@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NavBar from "../components/NavBar";
+import NavBar from "../components/NavBar.jsx";
 import RestaurantService from "../services/restaurtant.service.js";
 import Swal from "sweetalert2";
 const Add = () => {

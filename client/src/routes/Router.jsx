@@ -7,7 +7,7 @@ import Register from "../pages/Register";
 import NotAllowed from "../pages/NotAllowed";
 import AdminPage from "../pages/AdminPage";
 import UserPage from "../pages/UserPage";
-import ModOrAdmin from "../pages/ModOrAdminPage";
+import ModOrAdmin from "../pages/ModOrAdmin";
 import Profile from "../pages/Profile";
 const router = createBrowserRouter([
   {

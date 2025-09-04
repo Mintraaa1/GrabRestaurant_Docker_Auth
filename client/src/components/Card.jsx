@@ -1,6 +1,6 @@
 import React, { use } from "react";
 import { useAuthContext } from "../context/AuthContext";
-import RestaurantService from "../services/restaurtant.service.js";
+import RestaurantService from "../services/restaurant.service.js";
 import Swal from "sweetalert2";
 const Card = (props) => {
   const { user } = useAuthContext();
@@ -33,7 +33,11 @@ const Card = (props) => {
   return (
     <div className="card bg-base-100 w-96 shadow-sm">
       <figure>
-        <img src={props.imageUrl} alt="Shoes" />
+        <img 
+        src={props.imageUrl} 
+        alt="Shoes" 
+        className="w-full h-52 object-cover"
+        />
       </figure>
       <div className="card-body">
         <h2 className="card-title">
@@ -45,18 +49,18 @@ const Card = (props) => {
           <div className="card-actions justify-end">
             <button
               onClick={() => handleDelete(props.id)}
-              className="btn btn-error"
+              className=" btn btn-outline btn-error"
             >
               Delete
             </button>
-            <a href={"/update/" + props.id} className="btn btn-warning">
+            <a href={"/update/" + props.id} className="btn btn-outline btn-warning">
               Edit
             </a>
           </div>
         )}
         {user && user?.authorities?.includes("ROLES_MODERATOR") && (
           <div className="card-actions justify-end">
-            <a href={"/update/" + props.id} className="btn btn-warning">
+            <a href={"/update/" + props.id} className="btn btn-outline btn-warning">
               Edit
             </a>
           </div>

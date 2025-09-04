@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuthContext } from "../context/AuthContext";
 import UserProfile from "./UserProfile";
-const NavBar = () => {
+const Navbar = () => {
   const { user } = useAuthContext();
   console.log(user);
 
@@ -52,9 +52,13 @@ const NavBar = () => {
             ))}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl" href="/">
-          Grab Restaurant
-        </a>
+<a href="/" className="flex items-center space-x-2">
+  <img
+    src="/images/Grab_Logo.png" // เปลี่ยนเป็น path ของโลโก้รูปที่เราจะใช้
+    alt="Logo"
+    className="h-8 w-auto" // ปรับขนาดโลโก้
+  />
+</a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
@@ -75,10 +79,10 @@ const NavBar = () => {
         ) : (
           <div className="space-x-2">
             {" "}
-            <a href="/register" className="btn btn-soft btn-primary">
+            <a href="/register" className="btn btn-soft">
               Register
             </a>
-            <a href="/login" className="btn btn-soft btn-success">
+            <a href="/login" className="btn btn-soft">
               Login
             </a>
           </div>
@@ -88,4 +92,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default Navbar;

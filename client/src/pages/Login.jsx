@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import AuthService from "../services/auth.service";
 import { useNavigate } from "react-router";
 import { useAuthContext } from "../context/AuthContext";
@@ -8,17 +8,17 @@ const Login = () => {
   const navigate = useNavigate();
   const { login: loginFn, user } = useAuthContext();
 
-  useEffect(() => {
+  //18 ส.ค. เพิ่ม useEffect เพื่อตรวจสอบสถานะการล็อกอิน ของ user
+  useEffect(()=>{
     if (user) {
       navigate("/");
     }
-  }, [user]);
-
+  },[user])
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLogin((login) => ({ ...login, [name]: value }));
   };
-
+//18 ส.ค. เพิ่ม loginFn(currentUser.data);
   const handleSubmit = async () => {
     try {
       const currentUser = await AuthService.login(
@@ -44,14 +44,14 @@ const Login = () => {
     }
   };
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-200 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-700 to-green-300 p-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-6">
-        <h2 className="text-3xl font-bold text-center text-purple-700 mb-2">
-          Welcome Back
+        <h2 className="text-3xl font-bold text-center text-black-700 mb-2">
+          Welcome 
         </h2>
         <p className="text-center text-gray-500 mb-4">Login to your account</p>
         <form
-          className="flex flex-col gap-4"
+          className="flex flex-col  gap-4"
           onSubmit={(e) => {
             e.preventDefault();
             handleSubmit();
@@ -100,12 +100,12 @@ const Login = () => {
             />
           </label>
           <div className="flex justify-between items-center text-sm">
-            <a className="text-purple-600 hover:underline" href="#">
+            <a className="text-green-600 hover:underline" href="#">
               Forgot password?
             </a>
           </div>
           <button
-            className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg transition-all mt-2"
+            className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition-all mt-2"
             type="submit"
           >
             Login
@@ -113,7 +113,7 @@ const Login = () => {
         </form>
         <p className="text-center text-sm text-gray-500 mt-2">
           Don't have an account?{" "}
-          <a href="/register" className="text-purple-600 hover:underline">
+          <a href="/register" className="text-green-600 hover:underline">
             Register
           </a>
         </p>

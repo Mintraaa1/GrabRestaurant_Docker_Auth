@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import Navbar from "../components/Navbar.jsx";
-import RestaurantService from "../services/restaurtant.service.js";
+import Navbar from "../components/Navbar";
+import RestaurantService from "../services/restaurant.service";
+
 import Swal from "sweetalert2";
 const Add = () => {
   const [restaurant, setRestaurant] = useState({
